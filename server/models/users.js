@@ -2,7 +2,7 @@ import mongoose from '../db.js';
 
 const usersSchema = mongoose.Schema({
   username: {
-    type: Number,
+    type: String,
     required: true,
   },
   password: {
@@ -11,7 +11,6 @@ const usersSchema = mongoose.Schema({
   },
   deposit: {
     type: Number,
-    required: true,
   },
   role: {
     type: String,
