@@ -11,6 +11,10 @@ router.post('/add-user', users.addUser);
 router.put('/update-user', users.updateUser);
 router.delete('/delete-user', users.deleteUser);
 
+// products
+router.get('/get-products', products.getProducts);
 router.post('/add-product', products.addProduct);
+router.put('/update-product', products.updateProduct);
+router.delete('/delete-product', products.deleteProduct);
 
 export default router;

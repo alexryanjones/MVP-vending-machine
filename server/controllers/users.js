@@ -28,25 +28,22 @@ async function addUser(req, res) {
 async function updateUser(req, res) {
   try {
     
-    const userToUpdate = { username: req.headers.username };
-    const { username, password, deposit, role } = req.body;
+    const { username, newUsername, newPassword, newDeposit, newRole } = req.body;
     const user = {};
-    if (username) {
-      user.username = username;
+    if (newUsername) {
+      user.username = newUsername;
     }
-    if (password) {
-      user.password = password;
+    if (newPassword) {
+      user.password = newPassword;
     }
-    if (deposit) {
-      user.deposit = deposit;
+    if (newDeposit) {
+      user.deposit = newDeposit;
     }
-    if (role) {
-      user.role = role;
+    if (newRole) {
+      user.role = newRole;
     }
 
-    console.log(userToUpdate);
-    console.log(user);
-    const updatedUser = await users.findOneAndUpdate(userToUpdate, user, { new: true });
+    const updatedUser = await users.findOneAndUpdate(username, user, { new: true });
 
     if (!updatedUser) {
       res.status(404).send({ message: 'User not found' });
