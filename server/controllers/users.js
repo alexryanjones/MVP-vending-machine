@@ -1,8 +1,9 @@
 import users from '../models/users.js';
+import bcrypt from 'bcrypt';
 
 async function getUsers(req, res) {
   try {
-    const usersList = await users.find();
+    const usersList = await users.find().select('username deposit role');
     res.status(200).send(usersList);
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
@@ -12,9 +13,10 @@ async function getUsers(req, res) {
 async function addUser(req, res) {
   try {
     const { username, password, role } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = ({
       username,
-      password,
+      password: hashedPassword,
       deopsit: 0,
       role
     });
@@ -27,14 +29,14 @@ async function addUser(req, res) {
 
 async function updateUser(req, res) {
   try {
-    
     const { username, newUsername, newPassword, newDeposit, newRole } = req.body;
     const user = {};
     if (newUsername) {
       user.username = newUsername;
     }
     if (newPassword) {
-      user.password = newPassword;
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
     }
     if (newDeposit) {
       user.deposit = newDeposit;
@@ -57,7 +59,7 @@ async function updateUser(req, res) {
 
 
 async function deleteUser(req, res) {
-  const username = req.headers.username;
+  const username = req.body.username;
   try {
     const user = await users.findOneAndDelete({ username });
     if (!user) {

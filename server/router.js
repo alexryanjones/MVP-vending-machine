@@ -1,9 +1,13 @@
 import express from 'express';
 import products from './controllers/products.js';
 import users from './controllers/users.js';
+import login from './controllers/login.js';
 const router = express.Router();
 
 router.get('/check', (req, res) => res.send('hello world'));
+
+// login
+router.post('/login', login.validateLogin);
 
 // users
 router.get('/get-users', users.getUsers);

@@ -55,8 +55,7 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
   try {
-    console.log(req.headers);
-    const productToDelete = { productName: req.headers.productname };
+    const productToDelete = { productName: req.body.productname };
     const deletedProduct = await products.findOneAndDelete(productToDelete);
     if (!deletedProduct) {
       res.status(404).send({ message: 'Product not found' });
