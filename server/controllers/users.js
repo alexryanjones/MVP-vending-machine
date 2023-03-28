@@ -75,21 +75,25 @@ async function deleteUser(req, res) {
 
 async function deposit(req, res) {
   const { username, deposit } = req.body;
+  const allowedDenominations = [5, 10, 20, 50, 100];
   try {
     const user = await users.findOne({ username });
-    console.log(user);
     if (!user) {
       res.status(404).send({ message: 'User not found' });
+    } else if (user.role !== 'buyer') {
+      res.status(403).send({ message: 'You are not authorized to deposit coins' });
+    } else if (!allowedDenominations.includes(deposit)) {
+      res.status(400).send({ message: 'Invalid coin denomination' });
     } else {
       user.deposit += deposit;
       const newUserTotals = await users.findOneAndUpdate({ username }, { $set: { deposit: user.deposit }}, { new: true });
-      console.log(newUserTotals);
       res.status(200).send(newUserTotals);
     }
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
   }
 };
+
 
 async function resetDeposit(req, res) {
   const { username } = req.body;
