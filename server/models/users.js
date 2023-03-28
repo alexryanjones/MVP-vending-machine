@@ -11,6 +11,7 @@ const usersSchema = mongoose.Schema({
   },
   deposit: {
     type: Number,
+    required: true,
   },
   role: {
     type: String,

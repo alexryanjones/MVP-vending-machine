@@ -14,12 +14,12 @@ async function addUser(req, res) {
   try {
     const { username, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = ({
+    const user = {
       username,
       password: hashedPassword,
-      deopsit: 0,
-      role
-    });
+      deposit: 0,
+      role,
+    };
     await users.create(user);
     res.status(200).send(user);
   } catch (error) {
@@ -73,6 +73,38 @@ async function deleteUser(req, res) {
   }
 };
 
+async function deposit(req, res) {
+  const { username, deposit } = req.body;
+  try {
+    const user = await users.findOne({ username });
+    console.log(user);
+    if (!user) {
+      res.status(404).send({ message: 'User not found' });
+    } else {
+      user.deposit += deposit;
+      const newUserTotals = await users.findOneAndUpdate({ username }, { $set: { deposit: user.deposit }}, { new: true });
+      console.log(newUserTotals);
+      res.status(200).send(newUserTotals);
+    }
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Server error' });
+  }
+};
+
+async function resetDeposit(req, res) {
+  const { username } = req.body;
+  try {
+    const user = await users.find({ username });
+    if (!user) {
+      res.status(404).send({ message: 'User not found' });
+    } else {
+      const newUserTotals = await users.findOneAndUpdate({ username }, { $set: { deposit: 0 }}, { new: true });
+      res.status(200).send(newUserTotals);
+    }
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Server error' });
+  }
+};
 
 
-export default { getUsers, addUser, updateUser, deleteUser };
+export default { getUsers, addUser, updateUser, deleteUser, deposit, resetDeposit };
