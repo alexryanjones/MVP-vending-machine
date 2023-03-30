@@ -17,12 +17,11 @@ async function getUsers() {
   return response.json();
 };
 
-async function addUser(token, user) {
+async function addUser(user) {
   const response = await fetch(baseUrl + '/add-user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(user),
   });
