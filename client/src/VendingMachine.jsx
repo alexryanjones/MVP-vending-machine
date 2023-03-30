@@ -20,7 +20,7 @@ function VendingMachine () {
       <div id="vending-window">
         {products.map((product) => {
             return (
-              <Product key={product.id} product={product} />
+              <Product key={product._id} product={product} />
             )
           }
         )}
