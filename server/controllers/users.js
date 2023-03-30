@@ -1,6 +1,16 @@
 import users from '../models/users.js';
 import bcrypt from 'bcrypt';
 
+async function getUserInfo(req, res) {
+  const username = req.user.username;
+  try {
+    const user = await users.find({username});
+    res.send(user[0]);
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Server error' });
+  }
+}
+
 async function getUsers(req, res) {
   try {
     const usersList = await users.find().select('username deposit role');
@@ -20,6 +30,7 @@ async function addUser(req, res) {
       deposit: 0,
       role,
     };
+    console.log(user);
     await users.create(user);
     res.status(200).send(user);
   } catch (error) {
@@ -29,7 +40,8 @@ async function addUser(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const { username, newUsername, newPassword, newDeposit, newRole } = req.body;
+    const { newUsername, newPassword, newDeposit, newRole } = req.body;
+    const username = req.user.username;
     const user = {};
     if (newUsername) {
       user.username = newUsername;
@@ -57,9 +69,8 @@ async function updateUser(req, res) {
   }
 };
 
-
 async function deleteUser(req, res) {
-  const username = req.body.username;
+  const username = req.user.username;
   try {
     const user = await users.findOneAndDelete({ username });
     if (!user) {
@@ -74,7 +85,9 @@ async function deleteUser(req, res) {
 };
 
 async function deposit(req, res) {
-  const { username, deposit } = req.body;
+  const { amount } = req.body;
+  const username = req.user.username;
+  console.log(username, amount);
   const allowedDenominations = [5, 10, 20, 50, 100];
   try {
     const user = await users.findOne({ username });
@@ -82,11 +95,15 @@ async function deposit(req, res) {
       res.status(404).send({ message: 'User not found' });
     } else if (user.role !== 'buyer') {
       res.status(403).send({ message: 'You are not authorized to deposit coins' });
-    } else if (!allowedDenominations.includes(deposit)) {
+    } else if (!allowedDenominations.includes(amount)) {
       res.status(400).send({ message: 'Invalid coin denomination' });
     } else {
-      user.deposit += deposit;
-      const newUserTotals = await users.findOneAndUpdate({ username }, { $set: { deposit: user.deposit }}, { new: true });
+      user.deposit += amount;
+      const newUserTotals = await users.findOneAndUpdate(
+        { username },
+        { $set: { deposit: user.deposit } },
+        { new: true }
+      );
       res.status(200).send(newUserTotals);
     }
   } catch (error) {
@@ -94,9 +111,8 @@ async function deposit(req, res) {
   }
 };
 
-
 async function resetDeposit(req, res) {
-  const { username } = req.body;
+  const username = req.user.username;
   try {
     const user = await users.find({ username });
     if (!user) {
@@ -111,4 +127,12 @@ async function resetDeposit(req, res) {
 };
 
 
-export default { getUsers, addUser, updateUser, deleteUser, deposit, resetDeposit };
+export default {
+  getUserInfo,
+  getUsers,
+  addUser,
+  updateUser,
+  deleteUser,
+  deposit,
+  resetDeposit,
+};

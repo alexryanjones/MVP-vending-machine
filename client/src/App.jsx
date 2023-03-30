@@ -1,33 +1,41 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Login from './Login';
 import Logout from './Logout';
 import VendingMachine from './VendingMachine';
 import Cookies from 'js-cookie';
+import { setUser, setAccessToken } from './redux';
+import userApi from './userApiService';
 
 function App() {
+  const dispatch = useDispatch();
   const [loggedIn, setLoggedIn] = useState(false);
-  const [token, setToken] = useState(Cookies.get('access_token'));
+  const user = useSelector(state => state.user);
+
+  const getUserInfo = async (token) => {
+    const user = await userApi.getUserInfo(token);
+    dispatch(setUser(user));
+  }
 
   useEffect(() => {
+    const token = Cookies.get('access_token');
     if (token) {
+      dispatch(setAccessToken(token));
+      getUserInfo(token);
       setLoggedIn(true);
-      Cookies.set('access_token', token);
     }
-  }, [token]);
+  }, [dispatch, user]);
 
-  const handleClick = async () => {
-    console.log(token);
-  }
+
 
   return (
     <div className="app">
       {!loggedIn ?
-      <Login setLoggedIn={setLoggedIn} setToken={setToken}/> : 
-      <Logout setLoggedIn={setLoggedIn} setToken={setToken}/>
+      <Login setLoggedIn={setLoggedIn}/> : 
+      <Logout setLoggedIn={setLoggedIn}/>
       }
-      <VendingMachine />
-      <button onClick={() => handleClick()}>Click Me</button>
+      <VendingMachine user={user}/>
     </div>
   );
 }

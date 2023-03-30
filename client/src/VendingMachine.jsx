@@ -1,25 +1,31 @@
 import Product from './Product';
+import { useEffect, useState } from 'react';
+import productApi from './productApiService';
+import VendingControls from './VendingControls';
 
 function VendingMachine () {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = async () => {
+    const response = await productApi.getProducts();
+    setProducts(response);
+  }
+
   return (
     <div id="vending-machine">
       <div id="vending-window">
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {products.map((product) => {
+            return (
+              <Product key={product.id} product={product} />
+            )
+          }
+        )}
       </div>
-      <div id="vending-controls">
-        <p>Get your stuff here</p>
-      </div>
+      <VendingControls />
     </div>
   )
 }

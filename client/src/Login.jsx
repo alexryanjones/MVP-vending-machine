@@ -1,8 +1,10 @@
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import userApi from './userApiService'
+import userApi from './userApiService';
+import { setAccessToken, setUser } from './redux';
+import Cookies from 'js-cookie';
 
-
-function Login({ setLoggedIn, setToken }) {
+function Login({ setLoggedIn }) {
   const [isNewUser, setIsNewUser] = useState(false);
   const [formValues, setFormValues] = useState({
     username: '',
@@ -10,6 +12,8 @@ function Login({ setLoggedIn, setToken }) {
     confirmPassword: '',
     role: 'Buyer',
   });
+
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     if (isNewUser && formValues.password !== formValues.confirmPassword) {
@@ -22,7 +26,6 @@ function Login({ setLoggedIn, setToken }) {
     };
     try {
       const response = await userApi.login(user);
-      console.log(response);
       switch (response.message) {
         case 'User not found':
           alert('User not found');
@@ -32,8 +35,10 @@ function Login({ setLoggedIn, setToken }) {
           break;
         default:
           if (typeof response === 'object' && response.accessToken) {
+            Cookies.set('access_token', response.accessToken)
+            dispatch(setAccessToken(response.accessToken))
+            dispatch(setUser(response.user));
             setLoggedIn(true);
-            setToken(response.accessToken);
           }
           break;
       }
@@ -44,7 +49,7 @@ function Login({ setLoggedIn, setToken }) {
         alert('Incorrect password');
       }
     }
-  }
+  };
 
   const handleSignUp = async () => {
     if (isNewUser && formValues.password !== formValues.confirmPassword) {
@@ -63,9 +68,12 @@ function Login({ setLoggedIn, setToken }) {
           alert('Username already exists');
           break;
         default:
-          if (typeof response === 'object' && response.accessToken) {
+          const loginResponse = await userApi.login(user);
+          if (typeof loginResponse === 'object' && loginResponse.accessToken) {
+            Cookies.set('access_token', loginResponse.accessToken)
+            dispatch(setAccessToken(loginResponse.accessToken))
+            dispatch(setUser(loginResponse.user));
             setLoggedIn(true);
-            setToken(response.accessToken);
           }
           break;
       }
@@ -74,8 +82,7 @@ function Login({ setLoggedIn, setToken }) {
         alert('Username already exists');
       }
     }
-  }
-
+  };
 
   const handleUsernameChange = (event) => {
     setFormValues({ ...formValues, username: event.target.value });
@@ -97,8 +104,6 @@ function Login({ setLoggedIn, setToken }) {
     event.preventDefault();
     isNewUser ? await handleSignUp() : await handleLogin();
   };
-
-
 
   const handleNewUserClick = () => {
     setIsNewUser(!isNewUser);

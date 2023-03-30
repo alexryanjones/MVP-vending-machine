@@ -8,14 +8,14 @@ async function validateLogin(req, res) {
   try {
     const user = await users.findOne({ username: req.body.username });
     if (!user) {
-      res.status(404).send({ message: 'User not found' });
+      return res.status(404).send({ message: 'User not found' });
     }
     const passwordIsValid = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!passwordIsValid) {
-      res.status(401).send({ message: 'Invalid password' });
+      return res.status(401).send({ message: 'Invalid password' });
     }
     const payload = {
       id: user._id,
@@ -24,11 +24,12 @@ async function validateLogin(req, res) {
       role: user.role,
     };
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-    res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken, user });
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
   }
 }
+
 
 async function validateToken(req, res, next) {
   try {
@@ -41,7 +42,7 @@ async function validateToken(req, res, next) {
       if (err) {
         return res.status(403).send({ message: 'Forbidden' });
       }
-      req.user = user;
+      req.user = user;;
       next();
     });
   } catch (error) {

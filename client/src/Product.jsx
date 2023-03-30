@@ -1,7 +1,10 @@
-function Product (name, cost, remaining) {
+function Product ({product}) {
   return (
     <div className="product">
-      <h1>A</h1>
+      <p>{product.productName}</p>
+      <p>Price: €{product.cost}</p>
+      <p>Remaining: {product.amountAvailable}</p>
+      <button onClick = {() => {}}>Buy</button>
     </div>
   )
 }

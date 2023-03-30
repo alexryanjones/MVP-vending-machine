@@ -77,7 +77,8 @@ async function deleteProduct(req, res) {
 
 async function buyProduct(req, res) {
   try {
-    const user = await users.findOne({ username: req.user.username });
+    const username = req.user.username;
+    const user = await users.findOne({ username });
     if (user.role !== 'buyer') {
       res.status(403).send({ message: 'You are not authorized to buy products' });
     } else {
@@ -103,6 +104,5 @@ async function buyProduct(req, res) {
     res.status(500).send({ message: error.message || 'Server error' });
   }
 };
-
 
 export default { getProducts, addProduct, updateProduct, deleteProduct, buyProduct };

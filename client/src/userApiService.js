@@ -11,8 +11,16 @@ async function login(user) {
   return response.json();
 };
 
+async function getUserInfo(token) {
+  const response = await fetch(baseUrl + '/get-user-info', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+}
+
 async function getUsers() {
-  console.log('oh hi');
   const response = await fetch(baseUrl + '/get-users');
   return response.json();
 };
@@ -59,14 +67,14 @@ async function deleteUser(token, userToDelete) {
   return response.json();
 }
 
-async function deposit(token, user, amount) {
+async function deposit(token, amount) {
   const response = await fetch(baseUrl + '/deposit', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ username: user, amount }),
+    body: JSON.stringify({ amount }),
   });
   return response.json();
 }
@@ -85,6 +93,7 @@ async function resetDeposit(token, user) {
 
 const exports = {
   login,
+  getUserInfo,
   getUsers,
   addUser,
   updateUser,
