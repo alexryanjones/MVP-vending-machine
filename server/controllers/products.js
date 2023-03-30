@@ -13,18 +13,26 @@ async function getProducts(req, res) {
 async function addProduct(req, res) {
   try {
     const { productName, cost, amountAvailable, sellerId } = req.body;
+
+    const existingProduct = await products.findOne({ productName });
+    if (existingProduct) {
+      return res.status(400).send({ message: 'Product already exists' });
+    }
+
     const product = ({
       productName,
       cost,
       amountAvailable,
       sellerId,
     });
+    
     await products.create(product);
     res.status(200).send(product);
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
   }
 };
+
 
 async function updateProduct(req, res) {
   try {

@@ -23,6 +23,12 @@ async function getUsers(req, res) {
 async function addUser(req, res) {
   try {
     const { username, password, role } = req.body;
+    
+    const existingUser = await users.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send({ message: 'Username already taken' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = {
       username,
@@ -30,13 +36,14 @@ async function addUser(req, res) {
       deposit: 0,
       role,
     };
-    console.log(user);
+    
     await users.create(user);
     res.status(200).send(user);
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
   }
 };
+
 
 async function updateUser(req, res) {
   try {
