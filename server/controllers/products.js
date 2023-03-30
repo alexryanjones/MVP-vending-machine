@@ -13,7 +13,6 @@ async function getProducts(req, res) {
 async function addProduct(req, res) {
   try {
     const { productName, cost, amountAvailable, sellerId } = req.body;
-
     const existingProduct = await products.findOne({ productName });
     if (existingProduct) {
       return res.status(400).send({ message: 'Product already exists' });
@@ -36,7 +35,7 @@ async function addProduct(req, res) {
 
 async function updateProduct(req, res) {
   try {
-    const { productName, newProductName, newCost, newAmountAvailable, newSellerId } = req.body;
+    const { productName, newProductName, newCost, newAmountAvailable } = req.body;
     const product = {};
     if (newProductName) {
       product.productName = newProductName;
@@ -47,12 +46,10 @@ async function updateProduct(req, res) {
     if (newAmountAvailable) {
       product.amountAvailable = newAmountAvailable;
     }
-    if (newSellerId) {
-      product.sellerId = newSellerId;
-    }
-
+    
+    console.log(product);
     const updatedProduct = await products.findOneAndUpdate(
-      { productName, sellerId: req.user.userId },
+      { productName, sellerId: req.user.id },
       product,
       { new: true }
     );
@@ -69,9 +66,9 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
   try {
-    const productToDelete = { productName: req.body.productname };
-    const sellerId = req.user.userId;
-    const deletedProduct = await products.findOneAndDelete({ ...productToDelete, sellerId });
+    const productName = req.body.productName;
+    const sellerId = req.user.id;
+    const deletedProduct = await products.findOneAndDelete({ productName, sellerId });
 
     if (!deletedProduct) {
       res.status(404).send({ message: 'Product not found' });

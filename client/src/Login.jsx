@@ -64,8 +64,8 @@ function Login({ setLoggedIn }) {
     try {
       const response = await userApi.addUser(user);
       switch (response.message) {
-        case 'Username already exists':
-          alert('Username already exists');
+        case 'Username already taken':
+          alert('Username already taken');
           break;
         default:
           const loginResponse = await userApi.login(user);
@@ -79,7 +79,7 @@ function Login({ setLoggedIn }) {
       }
     } catch (error) {
       if (error.response && error.response.status === 409) {
-        alert('Username already exists');
+        alert('Username already taken');
       }
     }
   };

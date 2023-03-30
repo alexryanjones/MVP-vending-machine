@@ -42,7 +42,7 @@ async function validateToken(req, res, next) {
       if (err) {
         return res.status(403).send({ message: 'Forbidden' });
       }
-      req.user = user;;
+      req.user = user;
       next();
     });
   } catch (error) {
@@ -52,9 +52,8 @@ async function validateToken(req, res, next) {
 
 async function checkSeller(req, res, next) {
   try {
-    const user = await users.findOne({ username: req.body.username });
-    console.log(user)
-    if (user.role === 'seller') {
+    const user = await users.findOne({ username: req.user.username });
+    if (user.role.toLowerCase() === 'seller') {
       next();
     } else {
       res.status(403).send({ message: 'Forbidden' });

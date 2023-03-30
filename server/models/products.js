@@ -14,7 +14,7 @@ const productsSchema = mongoose.Schema({
     required: true,
   },
   sellerId: {
-    type: Number,
+    type: String,
     required: true,
   },
 });

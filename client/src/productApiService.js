@@ -20,11 +20,11 @@ async function addProduct(token, product) {
 async function updateProduct(token, productToUpdate, newProductDetails) {
   const body = {
     productName: productToUpdate,
-    newProductName: newProductDetails.productName,
-    newCost: newProductDetails.cost,
-    newAmountAvailable: newProductDetails.amountAvailable,
-    newSellerId: newProductDetails.sellerId,
+    newProductName: newProductDetails.newProductName,
+    newCost: newProductDetails.newCost,
+    newAmountAvailable: newProductDetails.newAmountAvailable,
   };
+  console.log(body);
   const response = await fetch(baseUrl + '/update-product', {
     method: 'PUT',
     headers: {
@@ -33,6 +33,7 @@ async function updateProduct(token, productToUpdate, newProductDetails) {
     },
     body: JSON.stringify(body),
   });
+  console.log(response);
   return response.json();
 }
 
