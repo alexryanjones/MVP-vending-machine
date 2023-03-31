@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-import { clearAuth } from './redux';
+import { clearAuth } from '../../redux/redux';
 
 function Logout() {
 

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import productApi from './productApiService';
-import { setUser, setProducts } from './redux';
+import productApi from '../../APIservices/productApiService';
+import { setUser, setProducts } from '../../redux/redux';
 
 function Product ({product}) {
 

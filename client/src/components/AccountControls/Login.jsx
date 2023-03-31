@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import userApi from './userApiService';
-import { setAccessToken, setUser } from './redux';
+import userApi from '../../APIservices/userApiService';
+import { setAccessToken, setUser } from '../../redux/redux';
 import Cookies from 'js-cookie';
 
 function Login() {

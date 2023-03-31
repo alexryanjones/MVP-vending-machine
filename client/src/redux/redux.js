@@ -25,6 +25,7 @@ const authSlice = createSlice({
     },
     setProducts: (state, action) => {
       state.products = action.payload;
+      console.log('updated');
     }
   },
 });

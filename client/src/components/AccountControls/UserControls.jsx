@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { setUser, clearAuth } from './redux';
-import userApi from './userApiService';
+import { setUser, clearAuth } from '../../redux/redux';
+import userApi from '../../APIservices/userApiService';
 
 function UserControls() {
   const token = useSelector(state => state.auth.accessToken);

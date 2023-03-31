@@ -1,9 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import productApi from './productApiService';
+import { setProducts } from '../../redux/redux';
+import productApi from '../../APIservices/productApiService';
 
 function SellerProduct ({product}) {
+
+  const dispatch = useDispatch();
   const token = useSelector(state => state.auth.accessToken);
+  const products = useSelector(state => state.auth.products);
   const [editClicked, setEditClicked] = useState(false);
   const [productName, setProductName] = useState(product.productName);
   const [price, setPrice] = useState(product.cost);
@@ -25,13 +29,18 @@ function SellerProduct ({product}) {
   }
 
   const handleDelete = async () => {
-    try {
-      const response = await productApi.deleteProduct(token, product.productName);
-      alert(`${response.productName} deleted.`);
-    } catch (error) {
-      console.error(error);
+  try {
+    const response = await productApi.deleteProduct(token, product.productName);
+    if (response.deletedProduct.productName === product.productName) {
+      const deletedProduct = response.deletedProduct;
+      const updatedProducts = products.filter(p => p.productName !== deletedProduct.productName);
+      dispatch(setProducts(updatedProducts));
     }
+  } catch (error) {
+    console.error(error);
   }
+}
+
 
   return (
     <div className='seller-product'>
@@ -59,7 +68,7 @@ function SellerProduct ({product}) {
             <input type="number" id="quantity" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
           </div>
           <button type="submit">Update Product</button>
-          <button onClick={setEditClicked(false)}>Cancel</button>
+          <button onClick={() => setEditClicked(false)}>Cancel</button>
 
         </form>
 

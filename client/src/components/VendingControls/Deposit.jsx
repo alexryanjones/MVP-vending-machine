@@ -1,6 +1,6 @@
-import userApi from './userApiService';
+import userApi from '../../APIservices/userApiService';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from './redux';
+import { setUser } from '../../redux/redux';
 
 function Deposit () {
 

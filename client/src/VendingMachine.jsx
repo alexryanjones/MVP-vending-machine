@@ -1,14 +1,13 @@
-import Product from './Product';
+import Product from './components/VendingWindow/Product';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setProducts } from './redux';
-import productApi from './productApiService';
-import VendingControls from './VendingControls';
+import { setProducts } from './redux/redux';
+import productApi from './APIservices/productApiService';
+import VendingControls from './components/VendingControls/VendingControls';
 
 function VendingMachine() {
   const dispatch = useDispatch();
   const products = useSelector(state => state.auth.products);
-  console.log(products);
 
   useEffect(() => {
     getProducts();

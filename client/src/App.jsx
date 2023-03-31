@@ -1,13 +1,13 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Login from './Login';
-import Logout from './Logout';
-import UserControls from './UserControls';
+import Login from './components/AccountControls/Login';
+import Logout from './components/AccountControls/Logout';
+import UserControls from './components/AccountControls/UserControls';
 import VendingMachine from './VendingMachine';
 import Cookies from 'js-cookie';
-import { setUser, setAccessToken } from './redux';
-import userApi from './userApiService';
+import { setUser, setAccessToken } from './redux/redux';
+import userApi from './APIservices/userApiService';
 
 function App() {
   const dispatch = useDispatch();

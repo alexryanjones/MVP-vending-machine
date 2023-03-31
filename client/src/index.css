@@ -89,8 +89,9 @@ body {
   padding: 1vw;
   width: 55vw;
   height: 57vh;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   justify-content: flex-start;
   align-items: flex-start;
   border: 2px solid #d6d5e2;
@@ -99,10 +100,10 @@ body {
 }
 
 #vending-window > * {
-  flex-basis: 24.5%;
   box-sizing: border-box;
   margin: 1px;
 }
+
 
 #vending-controls {
   padding: 0 1vw;

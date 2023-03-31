@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import productApi from "./productApiService";
+import { useSelector, useDispatch } from "react-redux";
+import { setProducts } from "../../redux/redux";
+import productApi from "../../APIservices/productApiService";
 import SellerProduct from "./SellerProduct";
 
 function SellerControls () {
+  const dispatch = useDispatch();
   const token = useSelector(state => state.auth.accessToken);
   const user = useSelector(state => state.auth.user);
-  const [products, setProducts] = useState([]);
+  const products = useSelector(state => state.auth.products);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -22,8 +25,12 @@ function SellerControls () {
         sellerId: user._id
       };
       const response = await productApi.addProduct(token, product);
-      alert(`${response.amountAvailable} ${response.productName} added.`)
-      setAddProductClicked(false);
+      if (response.productName === productName) {
+        const updatedProducts = JSON.parse(JSON.stringify([...products, response]));
+        setAddProductClicked(false);
+        alert(`${response.amountAvailable} ${response.productName} added.`)
+        dispatch(setProducts(updatedProducts));
+      }
     } catch (error) {
       console.error(error);
     }
@@ -36,16 +43,16 @@ function SellerControls () {
   const getProducts = async () => {
     const response = await productApi.getProducts();
     const filteredProducts = response.filter(product => product.sellerId === user._id);
-    setProducts(filteredProducts);
+    setFilteredProducts(filteredProducts);
   }
 
   return (
     <div id="seller-controls-container">
       <h2>Your products</h2>
       <div id="seller-products">
-        {products.map((product) => {
+        {filteredProducts.map((product) => {
           return (
-            <SellerProduct key={product._id} product={product} />
+            <SellerProduct key={product.productName} product={product} />
             )
           })}
       </div>
