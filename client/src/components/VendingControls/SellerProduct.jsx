@@ -51,11 +51,7 @@ function SellerProduct ({product}) {
         <p>Price: {product.cost}¢</p>
         <p>Quantity: {product.amountAvailable}</p>
       </div>
-      <div className='seller-product-buttons'>
-        <button onClick={() => setEditClicked(true)}>Edit</button>
-        <button onClick={() => handleDelete()}>Delete</button>
-      </div>
-      {editClicked && 
+      {editClicked ? (
         <form id="edit-product" onSubmit={handleEdit}>
           <div class="form-group">
             <label for="productName">Product Name</label>
@@ -73,8 +69,12 @@ function SellerProduct ({product}) {
           <button onClick={() => setEditClicked(false)}>Cancel</button>
 
         </form>
-
-      }
+      ) : (
+        <div className='seller-product-buttons'>
+          <button onClick={() => setEditClicked(true)}>Edit</button>
+          <button onClick={() => handleDelete()}>Delete</button>
+        </div>
+      )}
 
     </div>
   )
