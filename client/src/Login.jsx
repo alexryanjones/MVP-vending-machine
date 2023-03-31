@@ -4,7 +4,7 @@ import userApi from './userApiService';
 import { setAccessToken, setUser } from './redux';
 import Cookies from 'js-cookie';
 
-function Login({ setLoggedIn }) {
+function Login() {
   const [isNewUser, setIsNewUser] = useState(false);
   const [formValues, setFormValues] = useState({
     username: '',
@@ -38,7 +38,6 @@ function Login({ setLoggedIn }) {
             Cookies.set('access_token', response.accessToken)
             dispatch(setAccessToken(response.accessToken))
             dispatch(setUser(response.user));
-            setLoggedIn(true);
           }
           break;
       }
@@ -73,7 +72,6 @@ function Login({ setLoggedIn }) {
             Cookies.set('access_token', loginResponse.accessToken)
             dispatch(setAccessToken(loginResponse.accessToken))
             dispatch(setUser(loginResponse.user));
-            setLoggedIn(true);
           }
           break;
       }

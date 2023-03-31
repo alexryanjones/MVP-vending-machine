@@ -47,22 +47,14 @@ async function addUser(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const { newUsername, newPassword, newDeposit, newRole } = req.body;
+    const { newUsername, newPassword, newRole } = req.body;
     const username = req.user.username;
-    const user = {};
-    if (newUsername) {
-      user.username = newUsername;
-    }
-    if (newPassword) {
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      user.password = hashedPassword;
-    }
-    if (newDeposit) {
-      user.deposit = newDeposit;
-    }
-    if (newRole) {
-      user.role = newRole;
-    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const user = {
+      username: newUsername,
+      password: hashedPassword,
+      role: newRole,
+    };
 
     const updatedUser = await users.findOneAndUpdate(username, user, { new: true });
 
@@ -94,13 +86,12 @@ async function deleteUser(req, res) {
 async function deposit(req, res) {
   const { amount } = req.body;
   const username = req.user.username;
-  console.log(username, amount);
   const allowedDenominations = [5, 10, 20, 50, 100];
   try {
     const user = await users.findOne({ username });
     if (!user) {
       res.status(404).send({ message: 'User not found' });
-    } else if (user.role !== 'buyer') {
+    } else if (user.role.toLowerCase() !== 'buyer') {
       res.status(403).send({ message: 'You are not authorized to deposit coins' });
     } else if (!allowedDenominations.includes(amount)) {
       res.status(400).send({ message: 'Invalid coin denomination' });

@@ -36,12 +36,10 @@ async function addUser(user) {
   return response.json();
 };
 
-async function updateUser(token, userToUpdate, newUserDetails) {
+async function updateUser(token, newUserDetails) {
   const body = {
-    username: userToUpdate,
     newUsername: newUserDetails.username,
     newPassword: newUserDetails.password,
-    newDeposit: newUserDetails.deposit,
     newRole: newUserDetails.role,
   };
   const response = await fetch(baseUrl + '/update-user', {

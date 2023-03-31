@@ -16,7 +16,6 @@ function SellerProduct ({product}) {
         newCost: price,
         newAmountAvailable: quantity
       };
-      console.log(newProductInfo);
       const response = await productApi.updateProduct(token, product.productName, newProductInfo);
       setEditClicked(false)
       alert(`${response.productName} updated.`);

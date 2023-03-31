@@ -1,12 +1,18 @@
-import Cookies from 'js-cookie';
 import userApi from './userApiService';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from './redux';
 
-function Deposit ({ user }) {
+function Deposit () {
 
+  const token = useSelector(state => state.auth.accessToken);
+  const dispatch = useDispatch();
   const handleDeposit = async (amount) => {
-    const response = await userApi.deposit(
-      Cookies.get('access_token'),
-      amount);
+    try {
+      const updatedUser = await userApi.deposit(token, amount);
+      dispatch(setUser(updatedUser));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

@@ -24,7 +24,6 @@ async function updateProduct(token, productToUpdate, newProductDetails) {
     newCost: newProductDetails.newCost,
     newAmountAvailable: newProductDetails.newAmountAvailable,
   };
-  console.log(body);
   const response = await fetch(baseUrl + '/update-product', {
     method: 'PUT',
     headers: {
@@ -33,7 +32,6 @@ async function updateProduct(token, productToUpdate, newProductDetails) {
     },
     body: JSON.stringify(body),
   });
-  console.log(response);
   return response.json();
 }
 

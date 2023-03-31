@@ -36,18 +36,12 @@ async function addProduct(req, res) {
 async function updateProduct(req, res) {
   try {
     const { productName, newProductName, newCost, newAmountAvailable } = req.body;
-    const product = {};
-    if (newProductName) {
-      product.productName = newProductName;
-    }
-    if (newCost) {
-      product.cost = newCost;
-    }
-    if (newAmountAvailable) {
-      product.amountAvailable = newAmountAvailable;
-    }
+    const product = {
+      productName: newProductName,
+      cost: newCost,
+      amountAvailable: newAmountAvailable
+    };
     
-    console.log(product);
     const updatedProduct = await products.findOneAndUpdate(
       { productName, sellerId: req.user.id },
       product,
