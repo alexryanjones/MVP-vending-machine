@@ -4,6 +4,7 @@ const initialState = {
   accessToken: '',
   user: null,
   isLoggedIn: false,
+  products: [],
 };
 
 const authSlice = createSlice({
@@ -22,10 +23,13 @@ const authSlice = createSlice({
       state.user = null;
       state.isLoggedIn = false;
     },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    }
   },
 });
 
-export const { setAccessToken, setUser, clearAuth } = authSlice.actions;
+export const { setAccessToken, setUser, clearAuth, setProducts } = authSlice.actions;
 
 export const selectAccessToken = (state) => state.auth.accessToken;
 

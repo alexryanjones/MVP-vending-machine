@@ -32,8 +32,10 @@ function App() {
       {!loggedIn ?
         <Login /> : 
         <>
-          <Logout />
-          <UserControls />
+          <div id="controls">
+            <Logout />
+            <UserControls />
+          </div>
           <VendingMachine />
         </>
       }

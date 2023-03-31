@@ -34,25 +34,38 @@ function SellerProduct ({product}) {
   }
 
   return (
-    <>
-      <h3>{product.productName}</h3>
-      <p>Price: ${product.cost}</p>
-      <p>Quantity: {product.amountAvailable}</p>
-      <button onClick={() => setEditClicked(true)}>Edit</button>
-      <button onClick={() => handleDelete()}>Delete</button>
+    <div className='seller-product'>
+        <h3>{product.productName}</h3>
+      <div className='seller-product-headings'>
+        <p>Price: {product.cost}¢</p>
+        <p>Quantity: {product.amountAvailable}</p>
+      </div>
+      <div className='seller-product-buttons'>
+        <button onClick={() => setEditClicked(true)}>Edit</button>
+        <button onClick={() => handleDelete()}>Delete</button>
+      </div>
       {editClicked && 
         <form id="edit-product" onSubmit={handleEdit}>
-          <label>Product Name</label>
-          <input type="text" name="productName" value={productName} onChange={(e) => setProductName(e.target.value)} />
-          <label>Price</label>
-          <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
-          <label>Quantity</label>
-          <input type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" name="productName" value={productName} onChange={(e) => setProductName(e.target.value)} />
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+          </div>
           <button type="submit">Update Product</button>
+          <button onClick={setEditClicked(false)}>Cancel</button>
+
         </form>
+
       }
 
-    </>
+    </div>
   )
 }
 

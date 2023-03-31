@@ -52,9 +52,9 @@ function UserControls() {
   }
 
   return (
-    <div className="user-controls">
-      <button onClick={() => setEditClicked(true)}>Edit Account Details</button>
-      <button onClick={() => handleDeleteAccount()}>Delete Account</button>
+    <div id="user-controls">
+      <button className="user-control-button" onClick={() => setEditClicked(true)}>Edit Account Details</button>
+      <button className="user-control-button" onClick={() => handleDeleteAccount()}>Delete Account</button>
       {editClicked && (
         <div className="edit-form">
           <h2>Edit Account Details</h2>

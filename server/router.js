@@ -25,7 +25,7 @@ router.delete('/delete-product', validation.validateToken, validation.checkSelle
 // accounts
 router.post('/deposit', validation.validateToken, users.deposit);
 router.post('/reset-deposit', validation.validateToken, users.resetDeposit);
-router.post('/buy', validation.validateToken, products.buyProduct);
+router.put('/buy-product', validation.validateToken, products.buyProduct);
 
 
 

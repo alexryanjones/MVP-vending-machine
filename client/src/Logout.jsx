@@ -14,7 +14,7 @@ function Logout() {
 
   return (
     <>
-      <button id="logout-button" onClick={() => handleLogout()}>Logout</button>
+      <button id="logout-button" className="user-control-button" onClick={() => handleLogout()}>Logout</button>
     </>
   )
 }

@@ -4,6 +4,7 @@ import users from '../models/users.js';
 async function getProducts(req, res) {
   try {
     const productsList = await products.find();
+    console.log(productsList);
     res.status(200).send(productsList);
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
@@ -78,24 +79,22 @@ async function buyProduct(req, res) {
   try {
     const username = req.user.username;
     const user = await users.findOne({ username });
-    if (user.role !== 'buyer') {
+    if (user.role.toLowerCase() !== 'buyer') {
       res.status(403).send({ message: 'You are not authorized to buy products' });
     } else {
-      const { productName, amount } = req.body;
+      const { productName } = req.body;
       const purchasedProduct = await products.findOne({ productName });
       if (!purchasedProduct) {
         res.status(404).send({ message: 'Product not found' });
       } else {
-        if (purchasedProduct.amountAvailable < amount) {
-          res.status(400).send({ message: 'Not enough products available' });
-        } else if (user.deposit < purchasedProduct.cost * amount) {
+        if (user.deposit < purchasedProduct.cost) {
           res.status(400).send({ message: 'Not enough money in your deposit' });
         } else {
-        purchasedProduct.amountAvailable -= amount;
+        purchasedProduct.amountAvailable --;
         const updatedProduct = await products.findOneAndUpdate({ productName }, purchasedProduct, { new: true });
-        user.deposit -= purchasedProduct.cost * amount;
+        user.deposit -= purchasedProduct.cost;
         const updatedUser = await users.findOneAndUpdate({ username: user.username }, user, { new: true });
-        res.status(200).send(updatedProduct);
+        res.status(200).send({updatedProduct, updatedUser});
         }
       }
     }

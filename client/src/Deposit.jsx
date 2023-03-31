@@ -17,11 +17,11 @@ function Deposit () {
 
   return (
     <div id="deposit">
-      <button onClick={() => handleDeposit(5)}>5</button>
-      <button onClick={() => handleDeposit(10)}>10</button>
-      <button onClick={() => handleDeposit(20)}>20</button>
-      <button onClick={() => handleDeposit(50)}>50</button>
-      <button onClick={() => handleDeposit(100)}>100</button>
+      <button onClick={() => handleDeposit(5)}>5¢</button>
+      <button onClick={() => handleDeposit(10)}>10¢</button>
+      <button onClick={() => handleDeposit(20)}>20¢</button>
+      <button onClick={() => handleDeposit(50)}>50¢</button>
+      <button onClick={() => handleDeposit(100)}>100¢</button>
     </div>
   )
 }

@@ -9,16 +9,18 @@ function VendingControls () {
 
   return (
     <div id="vending-controls">
-      <p>Welcome {user?.username || ''}</p>
-      {user && user.role.toLowerCase() === 'buyer' &&
-        <>
-          <p>You have €{user.deposit} remaining in your account.</p>
-          <button id="add-deposit" onClick={() => setDepositClicked(true)}>Add Deposit</button>
-          {depositClicked && <Deposit user={user}/>}
-        </>
+      <div id="user-info">
+        <p id="greeting">Welcome, {user?.username || ''}!</p>
+        {user && user.role.toLowerCase() === 'buyer' &&
+          <div id="buyer-info">
+            <p>You have {user.deposit}¢ remaining in your account.</p>
+            <button id="add-deposit" onClick={() => setDepositClicked(true)}>Add Deposit</button>
+            {depositClicked && <Deposit user={user}/>}
+        </div>
       }
-      {user && user.role.toLowerCase() === 'seller' && <SellerControls />}
       </div>
+      {user && user.role.toLowerCase() === 'seller' && <SellerControls />}
+    </div>
   )
 }
 

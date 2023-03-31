@@ -40,27 +40,27 @@ function SellerControls () {
   }
 
   return (
-    <div>
-      {addProductClicked ?
-        <form id="add-product" onSubmit={handleAddProduct}>
-          <label>Product Name</label>
-          <input type="text" name="productName" value={productName} onChange={(e) => setProductName(e.target.value)} />
-          <label>Price</label>
-          <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
-          <label>Quantity</label>
-          <input type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-          <button type="submit">Add Product</button>
-        </form> :
-        <button onClick={() => setAddProductClicked(true)}>Add a New Product</button>
-      } 
+    <div id="seller-controls-container">
+      <h2>Your products</h2>
       <div id="seller-products">
-        <h2>Your products</h2>
         {products.map((product) => {
           return (
             <SellerProduct key={product._id} product={product} />
-          )
-        })}
+            )
+          })}
       </div>
+          {addProductClicked ?
+            <form id="add-product" onSubmit={handleAddProduct}>
+              <label>Product Name</label>
+              <input type="text" name="productName" value={productName} onChange={(e) => setProductName(e.target.value)} />
+              <label>Price</label>
+              <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+              <label>Quantity</label>
+              <input type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+              <button type="submit">Add Product</button>
+            </form> :
+            <button onClick={() => setAddProductClicked(true)}>Add a New Product</button>
+          } 
     </div>
   )
 }
