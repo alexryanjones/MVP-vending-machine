@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setProducts } from "../../redux/redux";
 import productApi from "../../APIservices/productApiService";
 import SellerProduct from "./SellerProduct";
+import '../../styles/VendingControlStyles.css';
+
 
 function SellerControls () {
   const dispatch = useDispatch();

@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import productApi from '../../APIservices/productApiService';
 import { setUser, setProducts } from '../../redux/redux';
+import '../../styles/ProductStyles.css';
 
 function Product ({product}) {
 

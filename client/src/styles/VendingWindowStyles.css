@@ -1,0 +1,18 @@
+#vending-window {
+  padding: 1vw;
+  width: 55vw;
+  height: 57vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 2px solid #d6d5e2;
+  background-color: #eae8fe;
+  border-radius: 10px;
+}
+
+#vending-window > * {
+  box-sizing: border-box;
+  margin: 1px;
+}

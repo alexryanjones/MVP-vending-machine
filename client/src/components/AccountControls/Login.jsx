@@ -3,6 +3,7 @@ import { useState } from 'react';
 import userApi from '../../APIservices/userApiService';
 import { setAccessToken, setUser } from '../../redux/redux';
 import Cookies from 'js-cookie';
+import '../../styles/UserControlsStyles.css';
 
 function Login() {
   const [isNewUser, setIsNewUser] = useState(false);

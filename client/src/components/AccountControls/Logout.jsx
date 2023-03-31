@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { clearAuth } from '../../redux/redux';
+import '../../styles/UserControlsStyles.css';
+
 
 function Logout() {
 

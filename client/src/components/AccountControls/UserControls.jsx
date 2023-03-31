@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { setUser, clearAuth } from '../../redux/redux';
 import userApi from '../../APIservices/userApiService';
+import '../../styles/UserControlsStyles.css';
+
 
 function UserControls() {
   const token = useSelector(state => state.auth.accessToken);

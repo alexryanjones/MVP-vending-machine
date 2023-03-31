@@ -25,7 +25,7 @@ function App() {
       dispatch(setAccessToken(token));
       getUserInfo(token);
     }
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="app">

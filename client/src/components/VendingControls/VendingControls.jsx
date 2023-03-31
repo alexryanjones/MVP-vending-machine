@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import Deposit from './Deposit';
 import SellerControls from './SellerControls';
+import '../../styles/VendingWindowStyles.css';
+
 
 function VendingControls () {
   const [depositClicked, setDepositClicked] = useState(false);
@@ -15,9 +17,10 @@ function VendingControls () {
           <div id="buyer-info">
             <p>You have {user.deposit}¢ remaining in your account.</p>
             <button id="add-deposit" onClick={() => setDepositClicked(true)}>Add Deposit</button>
-            {depositClicked && <Deposit user={user}/>}
+            {depositClicked && <button id="cancel-deposit" onClick={() => setDepositClicked(false)}>Cancel</button>}
         </div>
       }
+      {depositClicked && <Deposit user={user}/>}
       </div>
       {user && user.role.toLowerCase() === 'seller' && <SellerControls />}
     </div>

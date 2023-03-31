@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setProducts } from './redux/redux';
 import productApi from './APIservices/productApiService';
 import VendingControls from './components/VendingControls/VendingControls';
+import './styles/VendingWindowStyles.css';
+
 
 function VendingMachine() {
   const dispatch = useDispatch();
