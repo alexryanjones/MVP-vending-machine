@@ -55,7 +55,7 @@ function SellerControls () {
         <form id="add-product" onSubmit={handleAddProduct}>
           <label>Product Name</label>
           <input type="text" name="productName" value={productName} onChange={(e) => setProductName(e.target.value)} />
-          <label>Price</label>
+          <label>Price (¢)</label>
           <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
           <label>Quantity</label>
           <input type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
@@ -65,14 +65,16 @@ function SellerControls () {
           </div>
         </form>
       ) : (
-        <div id="seller-products">
-          {filteredProducts.map((product) => {
-            return (
-              <SellerProduct key={product.productName} product={product} />
-            )
-          })}
+        <>
           <button onClick={() => setAddProductClicked(true)}>Add a New Product</button>
-        </div>
+          <div id="seller-products">
+            {filteredProducts.map((product) => {
+              return (
+                <SellerProduct key={product.productName} product={product} />
+              )
+            })}
+          </div>
+        </>
       )}
     </div>
   )

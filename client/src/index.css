@@ -30,6 +30,7 @@ button {
   background-color: #6327fe;
   border: none;
   border-radius: 20px;
+  border: 1px solid #d6d5e2;
   min-width: 50px;
   min-height: 25px;
   color: white;
