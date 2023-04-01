@@ -4,9 +4,7 @@ import { setProducts } from '../../redux/redux';
 import productApi from '../../APIservices/productApiService';
 import '../../styles/VendingControlStyles.css';
 
-
 function SellerProduct ({product}) {
-
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.accessToken);
   const products = useSelector(state => state.auth.products);
@@ -28,25 +26,24 @@ function SellerProduct ({product}) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleDelete = async () => {
-  try {
-    const response = await productApi.deleteProduct(token, product.productName);
-    if (response.deletedProduct.productName === product.productName) {
-      const deletedProduct = response.deletedProduct;
-      const updatedProducts = products.filter(p => p.productName !== deletedProduct.productName);
-      dispatch(setProducts(updatedProducts));
+    try {
+      const response = await productApi.deleteProduct(token, product.productName);
+      if (response.deletedProduct.productName === product.productName) {
+        const deletedProduct = response.deletedProduct;
+        const updatedProducts = products.filter(p => p.productName !== deletedProduct.productName);
+        dispatch(setProducts(updatedProducts));
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
   }
-}
-
 
   return (
     <div className='seller-product'>
-        <h3>{product.productName}</h3>
+      <h3>{product.productName}</h3>
       <div className='seller-product-headings'>
         <p>Price: {product.cost}¢</p>
         <p>Quantity: {product.amountAvailable}</p>
@@ -67,7 +64,6 @@ function SellerProduct ({product}) {
           </div>
           <button type="submit">Update Product</button>
           <button onClick={() => setEditClicked(false)}>Cancel</button>
-
         </form>
       ) : (
         <div className='seller-product-buttons'>
@@ -75,7 +71,6 @@ function SellerProduct ({product}) {
           <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
-
     </div>
   )
 }

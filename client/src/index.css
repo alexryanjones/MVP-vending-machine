@@ -1,6 +1,7 @@
 body {
   margin: 0;
   background-color: #eae8fe;
+  overflow: hidden;
 }
 
 .app {
@@ -14,15 +15,15 @@ body {
 }
 
 #vending-machine {
-  padding: 1vw;
+  padding: 10px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 61vh;
-  width: 70vw;
+  height: 61%;
+  width: 70%;
   background-color: #ffffff;
   border-radius: 5px;
-  gap: 1vw;
+  gap: 10px;
 }
 
 button {

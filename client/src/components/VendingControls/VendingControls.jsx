@@ -16,11 +16,14 @@ function VendingControls () {
         {user && user.role.toLowerCase() === 'buyer' &&
           <div id="buyer-info">
             <p>You have {user.deposit}¢ remaining in your account.</p>
+            {
+            depositClicked ?
+            <button id="cancel-deposit" onClick={() => setDepositClicked(false)}>Cancel</button> :
             <button id="add-deposit" onClick={() => setDepositClicked(true)}>Add Deposit</button>
-            {depositClicked && <button id="cancel-deposit" onClick={() => setDepositClicked(false)}>Cancel</button>}
+            }
+            {depositClicked && <Deposit user={user}/>}
         </div>
       }
-      {depositClicked && <Deposit user={user}/>}
       </div>
       {user && user.role.toLowerCase() === 'seller' && <SellerControls />}
     </div>

@@ -1,7 +1,5 @@
 #vending-controls {
-  padding: 0 1vw;
-  width: 22vw;
-  height: 61vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -12,31 +10,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   width: 100%;
-  height: auto;
-  min-height: 50vh;
-  gap: 1vh;
+  min-height: 460px;
+  gap: 10px;
 }
 
 #seller-products {
-  width: 22vw;
-  max-height: 50vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border: 10px solid #d6d5e2;
+  border: 2px solid #d6d5e2;
   background-color: #eae8fe;
   border-radius: 10px;
   overflow-y: scroll;
+  flex-grow: 1;
 }
-
-#seller-products > :first-child {
-  margin-top: 1105px;
-  border-top: 10px solid transparent;
-}
-
 
 label {
   display: flex;
@@ -55,7 +45,7 @@ label {
 }
 
 #add-product-buttons {
-  width: 20vw;
+  width: 80%;
   height: 5vh;
   display: flex;
   align-items: center;
@@ -66,7 +56,6 @@ label {
 
 #user-info {
   width: 22vw;
-  height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +80,6 @@ label {
 
 #deposit {
   width: 100%;
-  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;

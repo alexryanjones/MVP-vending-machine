@@ -1,7 +1,7 @@
 #vending-window {
-  padding: 1vw;
-  width: 55vw;
-  height: 57vh;
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -10,6 +10,7 @@
   border: 2px solid #d6d5e2;
   background-color: #eae8fe;
   border-radius: 10px;
+  gap: 5px;
 }
 
 #vending-window > * {
