@@ -15,6 +15,7 @@ router.get('/get-users', validation.validateToken, users.getUsers);
 router.post('/add-user', users.addUser);
 router.put('/update-user', validation.validateToken, users.updateUser);
 router.delete('/delete-user', validation.validateToken, users.deleteUser);
+router.delete('/logout/all', validation.validateToken, users.logoutAll);
 
 // products
 router.get('/get-products', products.getProducts);

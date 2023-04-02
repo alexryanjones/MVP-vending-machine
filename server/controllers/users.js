@@ -1,4 +1,5 @@
 import users from '../models/users.js';
+import activeSessionsDb from '../models/activeSessions.js';
 import bcrypt from 'bcrypt';
 
 async function getUserInfo(req, res) {
@@ -124,6 +125,23 @@ async function resetDeposit(req, res) {
   }
 };
 
+async function logoutAll(req, res) {
+  try {
+    const user = req.user;
+    const deletedSessions = await activeSessionsDb.deleteMany({
+      username: user.username,
+    });
+    res
+      .status(200)
+      .send({
+        message: `Successfully logged out of all sessions`,
+      });
+  } catch (error) {
+    res.status(500).send({ message: error.message || 'Server error' });
+  }
+}
+
+
 
 export default {
   getUserInfo,
@@ -133,4 +151,5 @@ export default {
   deleteUser,
   deposit,
   resetDeposit,
+  logoutAll
 };

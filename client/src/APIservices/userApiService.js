@@ -89,6 +89,17 @@ async function resetDeposit(token, user) {
   return response.json();
 };
 
+async function logoutAll(token) {
+  const response = await fetch(baseUrl + '/logout/all', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+}
+
 const exports = {
   login,
   getUserInfo,
@@ -98,6 +109,7 @@ const exports = {
   deleteUser,
   deposit,
   resetDeposit,
+  logoutAll,
 };
 
 export default exports;

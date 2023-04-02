@@ -1,18 +1,24 @@
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import userApi from '../../APIservices/userApiService';
 import { setAccessToken, setUser } from '../../redux/redux';
 import Cookies from 'js-cookie';
 import '../../styles/UserControlsStyles.css';
 
 function Login() {
+  const [token, setToken] = useState('')
   const [isNewUser, setIsNewUser] = useState(false);
+  const [activeSessionDetected, setActiveSessionDetected] = useState(false);
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
     confirmPassword: '',
     role: 'Buyer',
   });
+
+  useEffect(() => {
+    console.log(activeSessionDetected);
+  }, [activeSessionDetected])
 
   const dispatch = useDispatch();
 
@@ -28,6 +34,10 @@ function Login() {
     try {
       const response = await userApi.login(user);
       switch (response.message) {
+        case ('There is already an active session using your account'):
+          setToken(response.accessToken)
+          setActiveSessionDetected(true);
+          break;
         case 'User not found':
           alert('User not found');
           break;
@@ -83,6 +93,17 @@ function Login() {
     }
   };
 
+  const handleLogoutEverywhere = async () => {
+    try {
+      const response = await userApi.logoutAll(token);
+      if (response.message === 'Successfully logged out of all sessions') {
+        setActiveSessionDetected(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleUsernameChange = (event) => {
     setFormValues({ ...formValues, username: event.target.value });
   };
@@ -112,6 +133,13 @@ function Login() {
     <>
       <div id="login-screen">
         <div id="login-container">
+          {activeSessionDetected ?
+          <>
+            <p>Active session detected. Please log out of your other session before logging in here.</p>
+            <button type="button" onClick={() => handleLogoutEverywhere()}>Logout Everywhere</button>
+          </>
+          :
+          <>
           <h1>{isNewUser ? 'Create Account' : 'Login'}</h1>
           <form id="login-form" onSubmit={handleSubmit}>
             <label htmlFor="username">Username:</label>
@@ -140,6 +168,8 @@ function Login() {
               <button type="button" onClick={handleNewUserClick}>New Here? Create an Account</button>
             }
           </form>
+          </>
+          }
         </div>
       </div>
     </>
