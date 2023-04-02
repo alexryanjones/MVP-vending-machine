@@ -47,14 +47,14 @@ async function deleteProduct(token, productToDelete) {
   return response.json();
 }
 
-async function buyProduct(token, productToBuy, amount) {
+async function buyProduct(token, productToBuy) {
   const response = await fetch(baseUrl + '/buy-product', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ productName: productToBuy, amount }),
+    body: JSON.stringify({ productName: productToBuy }),
   });
   return response.json();
 }

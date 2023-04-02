@@ -1,0 +1,26 @@
+[
+  {
+    "amountAvailable": 5,
+    "cost": 15,
+    "productName": "Black Jeans",
+    "sellerId": "5678"
+  },
+  {
+    "amountAvailable": 20,
+    "cost": 10,
+    "productName": "White Socks",
+    "sellerId": "9012"
+  },
+  {
+    "amountAvailable": 2,
+    "cost": 400,
+    "productName": "Smartphone",
+    "sellerId": "3456"
+  },
+  {
+    "amountAvailable": 50,
+    "cost": 1,
+    "productName": "Ballpoint Pen",
+    "sellerId": "7890"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "username": "testuser",
+    "password": "password123",
+    "role": "buyer",
+    "deposit": 500
+  },
+  {
+    "username": "testseller",
+    "password": "password123",
+    "role": "seller",
+    "deposit": 500
+  },
+  {
+    "username": "brokeuser",
+    "password": "password123",
+    "role": "buyer",
+    "deposit": 0
+  }
+]
