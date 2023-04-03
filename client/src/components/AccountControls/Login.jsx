@@ -16,10 +16,6 @@ function Login() {
     role: 'Buyer',
   });
 
-  useEffect(() => {
-    console.log(activeSessionDetected);
-  }, [activeSessionDetected])
-
   const dispatch = useDispatch();
 
   const handleLogin = async () => {

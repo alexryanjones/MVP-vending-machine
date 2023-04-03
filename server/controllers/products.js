@@ -26,7 +26,6 @@ async function addProduct(req, res) {
     };
 
     await products.create(product);
-    console.log(product);
     res.status(200).send(product);
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
