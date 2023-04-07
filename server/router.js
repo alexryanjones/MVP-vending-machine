@@ -31,5 +31,3 @@ router.post('/buy-product', validation.validateToken, products.buyProduct);
 
 
 export default router;
-
-// add readme, change thing, sellerId from accesstoken, buyers cant upload product (should work when updating the sellerId) change buy-product http method (find rest principles)
