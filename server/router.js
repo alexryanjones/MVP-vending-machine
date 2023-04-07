@@ -4,8 +4,6 @@ import users from './controllers/users.js';
 import validation from './controllers/validation.js';
 const router = express.Router();
 
-router.get('/check', (req, res) => res.send('hello world'));
-
 // login
 router.post('/login', validation.validateLogin);
 
