@@ -15,7 +15,9 @@ async function addProduct(req, res) {
     const { productName, cost, amountAvailable } = req.body;
     const sellerId = req.user.sellerId;
     const existingProduct = await products.findOne({ productName });
-    if (existingProduct) {
+    if (sellerId === undefined) {
+      return res.status(403).send({ message: 'You are not authorized to add products' });
+    } else if (existingProduct) {
       return res.status(400).send({ message: 'Product already exists' });
     }
 
@@ -108,7 +110,7 @@ async function buyProduct(req, res) {
         // Calculate coins in denominations of 5, 10, 20, 50, and 100
         const denominations = [100, 50, 20, 10, 5];
         const coins = denominations.map((denomination) => {
-          const count = Math.floor(user.deposit / denomination);
+          const count = Math.floor(change / denomination);
           change %= denomination;
           return [denomination, count];
         });
