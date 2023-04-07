@@ -17,6 +17,22 @@ const usersSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  sellerId: {
+    type: String,
+    required: function () {
+      return this.role === 'seller';
+    },
+    validate: {
+      validator: function (v) {
+        if (this.role === 'seller') {
+          return v && v.length > 0;
+        }
+        return true;
+      },
+      message: 'SellerId is required for sellers',
+    },
+  },
 });
+
 
 export default mongoose.model('users', usersSchema);

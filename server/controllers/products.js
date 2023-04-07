@@ -12,7 +12,8 @@ async function getProducts(req, res) {
 
 async function addProduct(req, res) {
   try {
-    const { productName, cost, amountAvailable, sellerId } = req.body;
+    const { productName, cost, amountAvailable } = req.body;
+    const sellerId = req.user.sellerId;
     const existingProduct = await products.findOne({ productName });
     if (existingProduct) {
       return res.status(400).send({ message: 'Product already exists' });
@@ -34,8 +35,7 @@ async function addProduct(req, res) {
 
 async function updateProduct(req, res) {
   try {
-    const { productName, newProductName, newCost, newAmountAvailable } =
-      req.body;
+    const { productName, newProductName, newCost, newAmountAvailable } = req.body;
     const product = {
       productName: newProductName,
       cost: newCost,
@@ -61,8 +61,7 @@ async function updateProduct(req, res) {
 async function deleteProduct(req, res) {
   try {
     const productName = req.body.productName;
-    const sellerId = req.user.id;
-    const sellerUsername = req.user.username;
+    const sellerId = req.user.sellerId;
     const deletedProduct = await products.findOneAndDelete({
       productName,
       sellerId,
@@ -84,37 +83,59 @@ async function buyProduct(req, res) {
     const user = await users.findOne({ username });
     if (user.role.toLowerCase() !== 'buyer') {
       res
-        .status(403)
-        .send({ message: 'You are not authorized to buy products' });
+      .status(403)
+      .send({ message: 'You are not authorized to buy products' });
     } else {
       const { productName } = req.body;
       const purchasedProduct = await products.findOne({ productName });
       if (!purchasedProduct) {
         res.status(404).send({ message: 'Product not found' });
+      } else if (purchasedProduct.amountAvailable < 1) {
+        res.status(400).send({ message: 'Not enough product available' });
+      } else if (user.deposit < purchasedProduct.cost) {
+        res.status(400).send({ message: 'Not enough money in your deposit' });
       } else {
-        if (user.deposit < purchasedProduct.cost) {
-          res.status(400).send({ message: 'Not enough money in your deposit' });
-        } else {
-          purchasedProduct.amountAvailable--;
-          const updatedProduct = await products.findOneAndUpdate(
-            { productName },
-            purchasedProduct,
-            { new: true }
-          );
-          user.deposit -= purchasedProduct.cost;
-          const updatedUser = await users.findOneAndUpdate(
-            { username: user.username },
-            user,
-            { new: true }
-          );
-          res.status(200).send({ updatedProduct, updatedUser });
-        }
+        purchasedProduct.amountAvailable --;
+        const updatedProduct = await products.findOneAndUpdate(
+          { productName },
+          { $set: purchasedProduct },
+          { new: true }
+        );
+
+        user.deposit -= purchasedProduct.cost;
+        let change = user.deposit;
+
+        // Calculate coins in denominations of 5, 10, 20, 50, and 100
+        const denominations = [100, 50, 20, 10, 5];
+        const coins = denominations.map((denomination) => {
+          const count = Math.floor(user.deposit / denomination);
+          change %= denomination;
+          return [denomination, count];
+        });
+        user.coins = coins;
+
+        const updatedUser = await users.findOneAndUpdate(
+          { username: user.username },
+          user,
+          { new: true }
+        );
+
+        const totalSpent = purchasedProduct.cost;
+
+        res.status(200).send({
+          totalSpent,
+          purchasedProducts: updatedProduct.productName,
+          change: user.deposit,
+          coins,
+        });
       }
     }
   } catch (error) {
     res.status(500).send({ message: error.message || 'Server error' });
   }
 }
+
+
 
 export default {
   getProducts,

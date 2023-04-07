@@ -11,7 +11,7 @@ router.post('/login', validation.validateLogin);
 
 // users
 router.get('/get-user-info', validation.validateToken, users.getUserInfo);
-router.get('/get-users', validation.validateToken, users.getUsers);
+router.get('/get-users', users.getUsers);
 router.post('/add-user', users.addUser);
 router.put('/update-user', validation.validateToken, users.updateUser);
 router.delete('/delete-user', validation.validateToken, users.deleteUser);
@@ -26,8 +26,10 @@ router.delete('/delete-product', validation.validateToken, validation.checkSelle
 // accounts
 router.post('/deposit', validation.validateToken, users.deposit);
 router.post('/reset-deposit', validation.validateToken, users.resetDeposit);
-router.put('/buy-product', validation.validateToken, products.buyProduct);
+router.post('/buy-product', validation.validateToken, products.buyProduct);
 
 
 
 export default router;
+
+// add readme, change thing, sellerId from accesstoken, buyers cant upload product (should work when updating the sellerId) change buy-product http method (find rest principles)

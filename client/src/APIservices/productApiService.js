@@ -49,7 +49,7 @@ async function deleteProduct(token, productToDelete) {
 
 async function buyProduct(token, productToBuy) {
   const response = await fetch(baseUrl + '/buy-product', {
-    method: 'PUT',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

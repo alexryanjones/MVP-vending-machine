@@ -1,6 +1,7 @@
 import users from '../models/users.js';
 import activeSessionsDb from '../models/activeSessions.js';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 async function getUserInfo(req, res) {
   const username = req.user.username;
@@ -24,18 +25,21 @@ async function getUsers(req, res) {
 async function addUser(req, res) {
   try {
     const { username, password, role } = req.body;
-    
+    const sellerId =
+      role.toLowerCase() === 'seller' ? crypto.randomBytes(16).toString('hex') : undefined;
     const existingUser = await users.findOne({ username });
     if (existingUser) {
       return res.status(400).send({ message: 'Username already taken' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = {
       username,
       password: hashedPassword,
       deposit: 0,
       role,
+      sellerId
     };
     
     await users.create(user);
@@ -79,7 +83,6 @@ async function deleteUser(req, res) {
       res.status(200).send(user);
     }
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({ message: error.message || 'Server error' });
   }
 };
